@@ -4,19 +4,34 @@
 </head>
 <body>
 
-<h1>Example of JS code inclusion</h1>
+<h1>Example of Transitive JS code inclusion</h1>
 
-This project shows an example of how you can define a series of common JS
-includes in a file, then include those common includes in differen HTML pages.
+This page shows how an HTML page can include and use a high level class without
+having to also include all its lower level dependencies.
 <p/>
-It is based on this page:</bodybr/>
-<a href="https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file">https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file</a><br/>
-<p/>
-The following pages, both include the same set of JS scripts:
+
+Loading this page should produce two console messages with the following texts:
 <ul>
-    <li><a href="page1.html">page1</a></li>
-    <li><a href="page2.html">page2</a></li>
+    <li>Hello from **HIGH** level component</li>
+    <li>Hello from **LOW** level component</li>
 </ul>
+<p/>
+If it does not, it means the include did not work.
+
+<script type="module">
+    // Note: HighLevelComponent depends on LowLevelComponent, but the HTML
+    // page does not have to include it directly. It will be included by
+    // HighLevelComponent
+    //
+    import {HighLevelComponent} from "./HighLevelComponent.js";
+    const highLev = new HighLevelComponent();
+    // This HighLevelComponent method does not depend on LowLevelComponent
+    highLev.hello();
+
+    // But this method delegates to LowLevelComponent
+    highLev.helloLow();
+</script>
+
 
 
 </body>
